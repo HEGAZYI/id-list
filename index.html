@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym IDs List</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+        }
+
+        body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #todo-list {
+            list-style-type: none;
+            padding: 0;
+            max-width: 300px;
+            margin: auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #2d2626;
+            color: #fff;
+        }
+
+        #todo-list li {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Gym IDs List</h1>
+    <ul id="todo-list"></ul>
+
+    <script>
+        // Array of gym IDs
+        const randomNumbers = [629874, 153762, 948503, 287459, 730194, 462381, 812647, 539286, 794315, 650823, 381576,
+        927150, 245908, 786432, 591283, 340517, 814906, 258376, 943270, 615783, 728459, 432190, 950827, 174386, 698531, 253947, 
+        807214, 691283, 347920, 578134, 120495, 863710, 492581, 703218, 165487, 834192, 290564, 671203, 580491, 139487, 759830, 294815, 
+        627401, 815239, 743986, 501293, 392578, 618749, 275184, 469302];
+
+        const todoList = document.getElementById('todo-list');
+
+        // Function to load saved state from local storage
+        function loadTodoList() {
+            const completedItems = JSON.parse(localStorage.getItem('completedItems')) || [];
+
+            randomNumbers.forEach(number => {
+                const listItem = document.createElement('li');
+                listItem.textContent = number;
+
+                // Check if item is completed
+                if (completedItems.includes(number.toString())) {
+                    listItem.classList.add('completed');
+                }
+
+                listItem.addEventListener('click', () => {
+                    listItem.classList.toggle('completed');
+
+                    // Update local storage on click
+                    if (listItem.classList.contains('completed')) {
+                        completedItems.push(number.toString());
+                    } else {
+                        const index = completedItems.indexOf(number.toString());
+                        if (index !== -1) {
+                            completedItems.splice(index, 1);
+                        }
+                    }
+                    localStorage.setItem('completedItems', JSON.stringify(completedItems));
+                });
+
+                todoList.appendChild(listItem);
+            });
+        }
+
+        // Call loadTodoList to initialize the list
+        loadTodoList();
+    </script>
+</body>
+
+</html>
